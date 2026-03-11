@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<title>Play Pombon Defense 🔫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#050010;color:white;font-family:'Nunito',sans-serif;overflow:hidden;height:100vh;display:flex;flex-direction:column}
+nav{flex-shrink:0;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,0,16,0.95);border-bottom:1px solid rgba(255,255,255,0.06);z-index:10}
+.nav-logo{font-family:'Boogaloo',cursive;font-size:20px;color:#F4C842;text-decoration:none}
+.nav-links{display:flex;gap:6px}
+.nav-links a{color:#6677AA;text-decoration:none;font-size:13px;font-weight:800;padding:6px 14px;border-radius:50px;transition:all 0.2s}
+.nav-links a:hover{color:white;background:rgba(255,255,255,0.06)}
+.nav-home{border:1px solid rgba(255,255,255,0.1)!important}
+iframe{flex:1;border:none;width:100%;display:block}
+@media(max-width:500px){
+  nav{padding:8px 16px}
+  .nav-links a:not(.nav-home){display:none}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">🔫 Pombon Defense</a>
+  <div class="nav-links">
+    <a href="about.html">How to Play</a>
+    <a href="index.html" class="nav-home">🏠 Home</a>
+  </div>
+</nav>
+<iframe src="game.html" title="Pombon Defense Game" allowfullscreen></iframe>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>About — Pombon Defense 🔫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{--gold:#F4C842;--gold2:#E8A800;--bg:#050010;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:white;font-family:'Nunito',sans-serif;overflow-x:hidden}
+nav{position:sticky;top:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,0,16,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Boogaloo',cursive;font-size:22px;color:var(--gold);text-decoration:none}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-links a{color:#8899BB;text-decoration:none;font-size:14px;font-weight:800;padding:7px 16px;border-radius:50px;transition:all 0.2s}
+.nav-links a:hover{color:white;background:rgba(255,255,255,0.06)}
+.nav-play{background:linear-gradient(135deg,var(--gold),var(--gold2))!important;color:#1a0a00!important}
+
+.hero{padding:100px 32px 60px;max-width:800px;margin:0 auto;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(244,200,66,0.1);border:1px solid rgba(244,200,66,0.3);padding:6px 18px;border-radius:50px;font-size:12px;font-weight:900;color:var(--gold);margin-bottom:20px}
+.hero h1{font-family:'Boogaloo',cursive;font-size:clamp(40px,8vw,72px);color:var(--gold);margin-bottom:16px;text-shadow:0 0 40px rgba(244,200,66,0.3)}
+.hero p{color:#6677AA;font-size:16px;line-height:1.8;max-width:580px;margin:0 auto}
+
+.content{max-width:860px;margin:0 auto;padding:0 32px 80px}
+
+/* SECTION HEADS */
+.sec{margin-top:64px}
+.sec-label{font-size:11px;font-weight:900;color:var(--gold);text-transform:uppercase;letter-spacing:3px;margin-bottom:8px}
+.sec h2{font-family:'Boogaloo',cursive;font-size:clamp(28px,5vw,44px);margin-bottom:28px;line-height:1.1}
+
+/* CONTROLS */
+.controls-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.control-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;display:flex;gap:16px;align-items:flex-start}
+.control-icon{font-size:28px;flex-shrink:0;margin-top:2px}
+.control-title{font-size:14px;font-weight:900;color:white;margin-bottom:4px}
+.control-desc{font-size:13px;color:#556;line-height:1.5}
+
+/* POWERUPS */
+.pu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.pu-card{border-radius:16px;padding:22px;border:1px solid}
+.pu-icon{font-size:32px;margin-bottom:10px}
+.pu-name{font-size:15px;font-weight:900;margin-bottom:5px}
+.pu-desc{font-size:13px;line-height:1.55;opacity:0.7}
+.pu-dur{display:inline-block;margin-top:8px;font-size:11px;font-weight:900;padding:3px 10px;border-radius:20px;opacity:0.8}
+
+/* ENEMY TABLE */
+.enemy-table{width:100%;border-collapse:collapse;margin-top:8px}
+.enemy-table th{text-align:left;font-size:11px;font-weight:900;color:#445;text-transform:uppercase;letter-spacing:1px;padding:10px 14px;border-bottom:1px solid var(--border)}
+.enemy-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle}
+.enemy-table tr:hover td{background:rgba(255,255,255,0.02)}
+.enemy-table td:first-child{font-size:18px}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:800}
+
+/* TIPS */
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.tip-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;display:flex;gap:14px}
+.tip-num{width:32px;height:32px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#1a0a00;flex-shrink:0}
+.tip-text{font-size:13px;color:#778;line-height:1.6}
+.tip-text strong{color:white;display:block;margin-bottom:3px;font-size:14px}
+
+/* WAVE TABLE */
+.wave-table{width:100%;border-collapse:collapse}
+.wave-table th{text-align:left;font-size:11px;font-weight:900;color:#445;text-transform:uppercase;letter-spacing:1px;padding:10px 14px;border-bottom:1px solid var(--border)}
+.wave-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.wave-num{font-family:'Boogaloo',cursive;font-size:20px;color:var(--gold)}
+
+/* CTA */
+.play-cta{margin-top:64px;background:rgba(244,200,66,0.06);border:1px solid rgba(244,200,66,0.2);border-radius:24px;padding:48px 40px;text-align:center}
+.play-cta h3{font-family:'Boogaloo',cursive;font-size:40px;color:var(--gold);margin-bottom:12px}
+.play-cta p{color:#667;font-size:15px;margin-bottom:28px}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0a00;border:none;padding:15px 48px;border-radius:50px;font-size:17px;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;text-decoration:none;display:inline-flex;align-items:center;gap:8px;box-shadow:0 6px 30px rgba(244,200,66,0.3);transition:all 0.2s}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 40px rgba(244,200,66,0.45)}
+
+footer{padding:32px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;color:#334;font-size:13px;font-weight:700}
+footer a{color:#556;text-decoration:none}footer a:hover{color:var(--gold)}
+
+@media(max-width:600px){
+  .controls-grid{grid-template-columns:1fr}
+  nav{padding:12px 20px}
+  .nav-links a:not(.nav-play){display:none}
+  .content{padding:0 20px 60px}
+  .hero{padding:80px 20px 40px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">🔫 Pombon Defense</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="play.html" class="nav-play">▶ Play Free</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">📖 Complete Game Guide</div>
+  <h1>How to Play</h1>
+  <p>Everything you need to know to survive the waves, collect power-ups, and beat your high score.</p>
+</div>
+
+<div class="content">
+
+  <!-- CONTROLS -->
+  <div class="sec">
+    <div class="sec-label">Controls</div>
+    <h2>Dead Simple. Just Point.</h2>
+    <div class="controls-grid">
+      <div class="control-card">
+        <div class="control-icon">🖱️</div>
+        <div>
+          <div class="control-title">Mouse (Desktop)</div>
+          <div class="control-desc">Move your cursor anywhere on screen. Pombon moves toward it and auto-aims at the nearest enemy.</div>
+        </div>
+      </div>
+      <div class="control-card">
+        <div class="control-icon">👆</div>
+        <div>
+          <div class="control-title">Touch (Mobile/Tablet)</div>
+          <div class="control-desc">Drag your finger around the screen. Pombon follows your touch. Works on any touchscreen.</div>
+        </div>
+      </div>
+      <div class="control-card">
+        <div class="control-icon">🔫</div>
+        <div>
+          <div class="control-title">Auto-Firing</div>
+          <div class="control-desc">No tap or click needed — Pombon shoots automatically toward your cursor whenever enemies are present.</div>
+        </div>
+      </div>
+      <div class="control-card">
+        <div class="control-icon">💊</div>
+        <div>
+          <div class="control-title">Collecting Power-Ups</div>
+          <div class="control-desc">Move Pombon over a glowing orb on the ground to pick it up. Walk into it — no button needed.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POWER-UPS -->
+  <div class="sec">
+    <div class="sec-label">Power-Ups</div>
+    <h2>4 Power-Ups to Master</h2>
+    <div class="pu-grid">
+      <div class="pu-card" style="background:rgba(255,215,0,0.06);border-color:rgba(255,215,0,0.25)">
+        <div class="pu-icon">⚡</div>
+        <div class="pu-name" style="color:#FFD700">Rapid Fire</div>
+        <div class="pu-desc" style="color:#AA9940">Shoots 3x faster — perfect for swarming waves of weaker enemies.</div>
+        <div class="pu-dur" style="background:rgba(255,215,0,0.15);color:#FFD700">⏱ 5 seconds</div>
+      </div>
+      <div class="pu-card" style="background:rgba(78,205,196,0.06);border-color:rgba(78,205,196,0.25)">
+        <div class="pu-icon">🔱</div>
+        <div class="pu-name" style="color:#4ECDC4">Triple Shot</div>
+        <div class="pu-desc" style="color:#3a9990">Fires 3 bullets in a spread. Massively increases damage coverage.</div>
+        <div class="pu-dur" style="background:rgba(78,205,196,0.15);color:#4ECDC4">⏱ 6 seconds</div>
+      </div>
+      <div class="pu-card" style="background:rgba(107,203,119,0.06);border-color:rgba(107,203,119,0.25)">
+        <div class="pu-icon">🛡️</div>
+        <div class="pu-name" style="color:#6BCB77">Shield</div>
+        <div class="pu-desc" style="color:#4a9950">Absorbs 1 hit from an enemy. Essential when you're low on HP.</div>
+        <div class="pu-dur" style="background:rgba(107,203,119,0.15);color:#6BCB77">⏱ 6 seconds</div>
+      </div>
+      <div class="pu-card" style="background:rgba(255,107,107,0.06);border-color:rgba(255,107,107,0.25)">
+        <div class="pu-icon">💥</div>
+        <div class="pu-name" style="color:#FF6B6B">Screen Nuke</div>
+        <div class="pu-desc" style="color:#AA4444">Instantly destroys every enemy on screen. Save for the boss waves!</div>
+        <div class="pu-dur" style="background:rgba(255,107,107,0.15);color:#FF6B6B">⚡ Instant Use</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENEMIES -->
+  <div class="sec">
+    <div class="sec-label">Enemy Guide</div>
+    <h2>Know What You're Fighting</h2>
+    <table class="enemy-table">
+      <tr>
+        <th></th><th>Name</th><th>Behavior</th><th>Threat</th><th>First Appears</th>
+      </tr>
+      <tr><td>👻</td><td>Shadow Ghost</td><td>Walks straight toward you</td><td><span class="badge" style="background:rgba(68,187,68,0.15);color:#44BB44">Easy</span></td><td>Wave 1</td></tr>
+      <tr><td>🟢</td><td>Toxic Slime</td><td>Slow but more HP</td><td><span class="badge" style="background:rgba(68,187,68,0.15);color:#44BB44">Easy</span></td><td>Wave 1</td></tr>
+      <tr><td>⚡</td><td>Speeder</td><td>Very fast, low HP</td><td><span class="badge" style="background:rgba(255,215,0,0.15);color:#FFD700">Medium</span></td><td>Wave 3</td></tr>
+      <tr><td>↯</td><td>Zigzagger</td><td>Swerves unpredictably</td><td><span class="badge" style="background:rgba(255,215,0,0.15);color:#FFD700">Medium</span></td><td>Wave 3</td></tr>
+      <tr><td>🔴</td><td>Fire Dragon</td><td>Tough and relentless</td><td><span class="badge" style="background:rgba(255,165,0,0.15);color:#FFA500">Hard</span></td><td>Wave 5</td></tr>
+      <tr><td>🔵</td><td>Ice Spirit</td><td>Balanced all-rounder</td><td><span class="badge" style="background:rgba(255,165,0,0.15);color:#FFA500">Hard</span></td><td>Wave 5</td></tr>
+      <tr><td>🛡️</td><td>Tank</td><td>Extremely high HP, slow</td><td><span class="badge" style="background:rgba(255,165,0,0.15);color:#FFA500">Hard</span></td><td>Wave 5</td></tr>
+      <tr><td>✦</td><td>Teleporter</td><td>Teleports close to you when far away</td><td><span class="badge" style="background:rgba(255,68,68,0.15);color:#FF4444">Dangerous</span></td><td>Wave 7</td></tr>
+      <tr><td>🔫</td><td>Shooter</td><td>Keeps distance and fires back at you</td><td><span class="badge" style="background:rgba(255,68,68,0.15);color:#FF4444">Dangerous</span></td><td>Wave 7</td></tr>
+      <tr><td>💥</td><td>Splitter</td><td>Splits into 2 mini enemies when killed</td><td><span class="badge" style="background:rgba(255,68,68,0.15);color:#FF4444">Dangerous</span></td><td>Wave 7</td></tr>
+      <tr><td>👁️</td><td>Phantom</td><td>Mostly invisible — only hittable when flickering</td><td><span class="badge" style="background:rgba(136,0,136,0.2);color:#DD44DD">Extreme</span></td><td>Wave 10</td></tr>
+      <tr><td>⚠️</td><td>Dark Boss</td><td>Boss — appears every 5 waves</td><td><span class="badge" style="background:rgba(255,34,0,0.2);color:#FF4444">Boss</span></td><td>Wave 5</td></tr>
+      <tr><td>💀</td><td>Mega Boss</td><td>60 HP, the ultimate challenge</td><td><span class="badge" style="background:rgba(136,0,0,0.3);color:#FF2200">MEGA</span></td><td>Wave 10</td></tr>
+    </table>
+  </div>
+
+  <!-- WAVE GUIDE -->
+  <div class="sec">
+    <div class="sec-label">Wave Progression</div>
+    <h2>What to Expect</h2>
+    <table class="wave-table">
+      <tr><th>Wave</th><th>What Happens</th></tr>
+      <tr><td><span class="wave-num">1–2</span></td><td>Just Ghosts. Use this to learn the controls and collect your first power-ups.</td></tr>
+      <tr><td><span class="wave-num">3–4</span></td><td>Speeders join — they're fast, don't let them sneak past. Zigzaggers are tricky.</td></tr>
+      <tr><td><span class="wave-num">5</span></td><td>⚠️ First Boss wave! Dragons and Tanks also join the regular pool.</td></tr>
+      <tr><td><span class="wave-num">6–6</span></td><td>Mixed waves — expect Dragons, Ice Spirits and Tanks all at once.</td></tr>
+      <tr><td><span class="wave-num">7–9</span></td><td>Shooters fire back at you. Splitters create mini-enemies. Teleporters appear from nowhere.</td></tr>
+      <tr><td><span class="wave-num">10</span></td><td>💀 MEGA BOSS. Plus Phantoms (mostly invisible) join every future wave. Pure chaos.</td></tr>
+      <tr><td><span class="wave-num">10+</span></td><td>All enemy types can spawn. HP and speed scale up every wave. Good luck.</td></tr>
+    </table>
+  </div>
+
+  <!-- TIPS -->
+  <div class="sec">
+    <div class="sec-label">Pro Tips</div>
+    <h2>How to Survive Longer</h2>
+    <div class="tips">
+      <div class="tip-card">
+        <div class="tip-num">1</div>
+        <div class="tip-text"><strong>Keep Moving</strong>Don't stand still. Constantly move Pombon in a circle to shoot enemies from all angles at once.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">2</div>
+        <div class="tip-text"><strong>Prioritize Shooters</strong>Kill Shooter enemies first — they fire back at you and are the most dangerous at range.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">3</div>
+        <div class="tip-text"><strong>Save the Nuke</strong>Hold onto 💥 Screen Nuke drops for boss waves or when you're surrounded. Don't waste them.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">4</div>
+        <div class="tip-text"><strong>Splitters — Back Off!</strong>When a Splitter dies it makes 2 minis. Step back before shooting the last one.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">5</div>
+        <div class="tip-text"><strong>Use the Edges</strong>Herd enemies from the center toward a corner so you can mow through them in a line.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">6</div>
+        <div class="tip-text"><strong>Watch for Phantoms</strong>Phantoms flicker visible for short bursts. Keep sweeping your cursor near where they move.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAY CTA -->
+  <div class="play-cta">
+    <h3>Ready to Try? 🔫</h3>
+    <p>No sign-up, no download — just open and play for free.</p>
+    <a href="play.html" class="btn-primary">⚔️ Play Pombon Defense Now</a>
+  </div>
+
+</div>
+
+<footer>
+  <span>© 2025 Pombon Defense · Made with ❤️</span>
+  <div style="display:flex;gap:20px">
+    <a href="index.html">Home</a>
+    <a href="play.html">Play</a>
+    <a href="about.html">About</a>
+  </div>
+</footer>
+
+</body>
+</html>

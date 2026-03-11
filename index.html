@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Pombon Defense — survive endless waves of evil Pokémon! Free browser game, no download needed."/>
+<meta property="og:title" content="Pombon Defense 🔫"/>
+<meta property="og:description" content="Survive endless waves of evil Pokémon as Pombon! Free browser game."/>
+<meta property="og:image" content="https://pombon.vercel.app/preview.png"/>
+<title>Pombon Defense 🔫 — Survive the Waves!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --gold: #F4C842;
+  --gold2: #E8A800;
+  --red: #FF4444;
+  --bg: #050010;
+  --bg2: #0a0020;
+  --card: rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:white;font-family:'Nunito',sans-serif;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,0,16,0.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Boogaloo',cursive;font-size:22px;color:var(--gold);text-decoration:none;letter-spacing:0.5px}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-links a{color:#8899BB;text-decoration:none;font-size:14px;font-weight:800;padding:7px 16px;border-radius:50px;transition:all 0.2s}
+.nav-links a:hover{color:white;background:rgba(255,255,255,0.06)}
+.nav-play{background:linear-gradient(135deg,var(--gold),var(--gold2))!important;color:#1a0a00!important;padding:8px 22px!important;border-radius:50px!important}
+.nav-play:hover{transform:scale(1.05);box-shadow:0 4px 20px rgba(244,200,66,0.4)!important;background:rgba(0,0,0,0)!important}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 60px;position:relative;overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 20%,rgba(244,200,66,0.07) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(255,68,68,0.05) 0%,transparent 50%);pointer-events:none}
+#star-canvas{position:absolute;inset:0;pointer-events:none;opacity:0.6}
+
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(244,200,66,0.1);border:1px solid rgba(244,200,66,0.3);padding:6px 18px;border-radius:50px;font-size:12px;font-weight:900;color:var(--gold);margin-bottom:24px;animation:fadeUp 0.6s ease both}
+.hero h1{font-family:'Boogaloo',cursive;font-size:clamp(52px,12vw,110px);line-height:0.95;color:var(--gold);text-shadow:0 0 60px rgba(244,200,66,0.35),0 0 120px rgba(244,200,66,0.15);margin-bottom:10px;animation:fadeUp 0.7s 0.1s ease both}
+.hero-sub{font-size:clamp(16px,3vw,22px);color:#8899BB;margin-bottom:40px;max-width:520px;line-height:1.5;animation:fadeUp 0.7s 0.2s ease both}
+.hero-sub span{color:white;font-weight:900}
+
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;animation:fadeUp 0.7s 0.3s ease both}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0a00;border:none;padding:16px 48px;border-radius:50px;font-size:18px;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;text-decoration:none;display:inline-flex;align-items:center;gap:8px;box-shadow:0 6px 30px rgba(244,200,66,0.35);transition:all 0.2s}
+.btn-primary:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 10px 40px rgba(244,200,66,0.5)}
+.btn-secondary{background:transparent;color:#8899BB;border:1px solid rgba(255,255,255,0.15);padding:15px 32px;border-radius:50px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;text-decoration:none;transition:all 0.2s}
+.btn-secondary:hover{border-color:rgba(255,255,255,0.4);color:white}
+
+.hero-pombon{animation:float 3s ease-in-out infinite;margin:40px 0 10px;filter:drop-shadow(0 0 30px rgba(244,200,66,0.4));animation:fadeUp 0.7s 0s ease both, float 3s 0.7s ease-in-out infinite}
+
+/* STATS STRIP */
+.stats{padding:20px 32px;background:rgba(244,200,66,0.05);border-top:1px solid rgba(244,200,66,0.15);border-bottom:1px solid rgba(244,200,66,0.15);display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-n{font-family:'Boogaloo',cursive;font-size:32px;color:var(--gold)}
+.stat-l{font-size:11px;color:#445;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+
+/* FEATURES */
+.section{padding:80px 32px;max-width:1100px;margin:0 auto}
+.section-label{font-size:11px;font-weight:900;color:var(--gold);text-transform:uppercase;letter-spacing:3px;margin-bottom:12px}
+.section-title{font-family:'Boogaloo',cursive;font-size:clamp(32px,6vw,56px);line-height:1.1;margin-bottom:16px}
+.section-desc{color:#6677AA;font-size:16px;max-width:540px;line-height:1.7;margin-bottom:48px}
+
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;transition:all 0.3s;position:relative;overflow:hidden}
+.feature-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(244,200,66,0.04),transparent);opacity:0;transition:opacity 0.3s}
+.feature-card:hover{border-color:rgba(244,200,66,0.25);transform:translateY(-4px)}
+.feature-card:hover::before{opacity:1}
+.feature-icon{font-size:36px;margin-bottom:14px}
+.feature-title{font-size:17px;font-weight:900;color:white;margin-bottom:6px}
+.feature-desc{font-size:13px;color:#556;line-height:1.6}
+
+/* ENEMIES SHOWCASE */
+.enemies-section{padding:80px 32px;background:linear-gradient(180deg,transparent,rgba(244,200,66,0.03),transparent)}
+.enemies-section-inner{max-width:1100px;margin:0 auto}
+.enemies-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-top:48px}
+.enemy-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 16px;text-align:center;transition:all 0.25s;cursor:default}
+.enemy-card:hover{transform:translateY(-5px) scale(1.03);border-color:rgba(255,255,255,0.18)}
+.enemy-icon{font-size:32px;margin-bottom:8px}
+.enemy-name{font-size:13px;font-weight:900;color:white;margin-bottom:4px}
+.enemy-trait{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:800;display:inline-block}
+.enemy-wave{font-size:10px;color:#334;margin-top:6px;font-weight:700}
+
+/* HOW TO PLAY */
+.howto{padding:80px 32px;max-width:900px;margin:0 auto}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:48px}
+.step{text-align:center;padding:28px 20px}
+.step-num{width:52px;height:52px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Boogaloo',cursive;font-size:26px;color:#1a0a00;margin:0 auto 16px}
+.step-title{font-size:15px;font-weight:900;color:white;margin-bottom:6px}
+.step-desc{font-size:13px;color:#556;line-height:1.6}
+
+/* CTA */
+.cta{padding:100px 32px;text-align:center;position:relative;overflow:hidden}
+.cta-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(244,200,66,0.06) 0%,transparent 70%);pointer-events:none}
+.cta h2{font-family:'Boogaloo',cursive;font-size:clamp(40px,8vw,80px);color:var(--gold);margin-bottom:16px;text-shadow:0 0 40px rgba(244,200,66,0.3)}
+.cta p{color:#6677AA;font-size:18px;margin-bottom:40px}
+
+/* FOOTER */
+footer{padding:32px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;color:#334;font-size:13px;font-weight:700}
+footer a{color:#556;text-decoration:none;transition:color 0.2s}
+footer a:hover{color:var(--gold)}
+
+/* ANIMATIONS */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+
+/* MOBILE */
+@media(max-width:600px){
+  nav{padding:12px 20px}
+  .nav-links a:not(.nav-play){display:none}
+  .stats{gap:24px}
+  .section,.enemies-section,.howto,.cta{padding:60px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- STARS -->
+<canvas id="star-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">🔫 Pombon Defense</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="play.html" class="nav-play">▶ Play Free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-badge">🆓 Free to Play · No Download · Works on Mobile</div>
+  <div class="hero-pombon">
+    <canvas id="pombon-canvas" width="140" height="140"></canvas>
+  </div>
+  <h1>Pombon<br/>Defense!</h1>
+  <p class="hero-sub">Survive <span>endless waves</span> of evil Pokémon.<br/>How long can you last?</p>
+  <div class="hero-btns">
+    <a href="play.html" class="btn-primary">⚔️ Play Now — It's Free!</a>
+    <a href="about.html" class="btn-secondary">How to Play</a>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats">
+  <div class="stat"><div class="stat-n">12</div><div class="stat-l">Enemy Types</div></div>
+  <div class="stat"><div class="stat-n">∞</div><div class="stat-l">Endless Waves</div></div>
+  <div class="stat"><div class="stat-n">4</div><div class="stat-l">Power-Ups</div></div>
+  <div class="stat"><div class="stat-n">0</div><div class="stat-l">Downloads Needed</div></div>
+</div>
+
+<!-- FEATURES -->
+<div class="section">
+  <div class="section-label">Why It's Addictive</div>
+  <h2 class="section-title">Simple to learn.<br/>Hard to master.</h2>
+  <p class="section-desc">Move your cursor, Pombon does the rest. But the waves keep coming harder — can you make it to Wave 10?</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-title">Auto-Aim Shooting</div>
+      <div class="feature-desc">Just point at enemies — Pombon fires automatically. No complicated controls, pure skill.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌊</div>
+      <div class="feature-title">Endless Wave Survival</div>
+      <div class="feature-desc">Each wave brings more enemies, faster speeds, and tougher monsters. How many can you clear?</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">4 Power-Up Types</div>
+      <div class="feature-desc">Rapid Fire, Triple Shot, Shield, and the devastating Screen Nuke. Collect them before enemies do.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💀</div>
+      <div class="feature-title">Boss Waves</div>
+      <div class="feature-desc">Every 5 waves a massive boss appears. Wave 10 brings the ultimate challenge — the Mega Boss.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏆</div>
+      <div class="feature-title">High Score Tracking</div>
+      <div class="feature-desc">Your best score saves automatically. Beat your record, then challenge your friends to top it.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📱</div>
+      <div class="feature-title">Works Everywhere</div>
+      <div class="feature-desc">Phone, tablet, laptop — touch or mouse. Full game in your browser, zero installs.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ENEMIES -->
+<div class="enemies-section">
+  <div class="enemies-section-inner">
+    <div class="section-label">Know Your Enemies</div>
+    <h2 class="section-title">12 Types of Evil Pokémon<br/>Waiting for You</h2>
+
+    <div class="enemies-grid">
+      <div class="enemy-card">
+        <div class="enemy-icon">👻</div>
+        <div class="enemy-name">Shadow Ghost</div>
+        <div class="enemy-trait" style="background:rgba(153,102,204,0.2);color:#9966CC">Fast · Weak</div>
+        <div class="enemy-wave">From Wave 1</div>
+      </div>
+      <div class="enemy-card">
+        <div class="enemy-icon">🟢</div>
+        <div class="enemy-name">Toxic Slime</div>
+        <div class="enemy-trait" style="background:rgba(68,187,68,0.2);color:#44BB44">Slow · Tanky</div>
+        <div class="enemy-wave">From Wave 1</div>
+      </div>
+      <div class="enemy-card">
+        <div class="enemy-icon">⚡</div>
+        <div class="enemy-name">Speeder</div>
+        <div class="enemy-trait" style="background:rgba(255,170,0,0.2);color:#FFAA00">Very Fast</div>
+        <div class="enemy-wave">From Wave 3</div>
+      </div>
+      <div class="enemy-card">
+        <div class="enemy-icon">↯</div>
+        <div class="enemy-name">Zigzagger</div>
+        <div class="enemy-trait" style="background:rgba(255,102,204,0.2);color:#FF66CC">Unpredictable</div>
+        <div class="enemy-wave">From Wave 3</div>
+      </div>
+      <div class="enemy-card">
+        <div class="enemy-icon">🔴</div>
+        <div class="enemy-name">Fire Dragon</div>
+        <div class="enemy-trait" style="background:rgba(221,51,17,0.2);color:#DD3311">Tough · Mean</div>
+        <div class="enemy-wave">From Wave 5</div>
+      </div>
+      <div class="enemy-card">
+        <div class="enemy-icon">🔵</div>
+        <div class="enemy-name">Ice Spirit</div>
+        <div class="enemy-trait" style="background:rgba(136,204,255,0.2);color:#88CCFF">Balanced</div>
+        <div class="enemy-wave">From Wave 5</div>
+      </div>
+      <div class="enemy-card">
+        <div class="enemy-icon">🛡️</div>
+        <div class="enemy-name">Tank</div>
+        <div class="enemy-trait" style="background:rgba(119,136,153,0.2);color:#aabbcc">Massive HP</div>
+        <div class="enemy-wave">From Wave 5</div>
+      </div>
+      <div class="enemy-card">
+        <div class="enemy-icon">✦</div>
+        <div class="enemy-name">Teleporter</div>
+        <div class="enemy-trait" style="background:rgba(204,68,255,0.2);color:#CC44FF">Teleports!</div>
+        <div class="enemy-wave">From Wave 7</div>
+      </div>
+      <div class="enemy-card">
+        <div class="enemy-icon">🔫</div>
+        <div class="enemy-name">Shooter</div>
+        <div class="enemy-trait" style="background:rgba(255,68,68,0.2);color:#FF4444">Shoots Back</div>
+        <div class="enemy-wave">From Wave 7</div>
+      </div>
+      <div class="enemy-card">
+        <div class="enemy-icon">💥</div>
+        <div class="enemy-name">Splitter</div>
+        <div class="enemy-trait" style="background:rgba(255,204,0,0.2);color:#FFCC00">Splits in 2</div>
+        <div class="enemy-wave">From Wave 7</div>
+      </div>
+      <div class="enemy-card">
+        <div class="enemy-icon">👁️</div>
+        <div class="enemy-name">Phantom</div>
+        <div class="enemy-trait" style="background:rgba(34,34,68,0.6);color:#8888FF">Invisible!</div>
+        <div class="enemy-wave">From Wave 10</div>
+      </div>
+      <div class="enemy-card" style="border-color:rgba(255,34,0,0.3)">
+        <div class="enemy-icon">💀</div>
+        <div class="enemy-name">Mega Boss</div>
+        <div class="enemy-trait" style="background:rgba(136,0,0,0.3);color:#FF4444">60 HP · Final</div>
+        <div class="enemy-wave">Wave 10 Boss</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW TO PLAY -->
+<div class="howto">
+  <div class="section-label">Getting Started</div>
+  <h2 class="section-title" style="text-align:center">Play in 3 seconds flat</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-title">Open the Game</div>
+      <div class="step-desc">Tap Play Now — works instantly in your browser on any device.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-title">Move to Aim</div>
+      <div class="step-desc">Move your cursor or drag your finger. Pombon follows and shoots automatically.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-title">Grab Power-Ups</div>
+      <div class="step-desc">Walk over glowing orbs to collect ⚡🔱🛡️💥 power-ups dropped by enemies.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-title">Survive!</div>
+      <div class="step-desc">Last as long as possible. Beat your high score. Challenge your friends.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+  <div class="cta-bg"></div>
+  <h2>Ready to Fight? ⚔️</h2>
+  <p>Free forever. No sign-up. Just Pombon vs the world.</p>
+  <a href="play.html" class="btn-primary" style="font-size:20px;padding:18px 56px">🔫 Start Playing Now</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Pombon Defense · Made with ❤️</span>
+  <div style="display:flex;gap:20px">
+    <a href="index.html">Home</a>
+    <a href="play.html">Play</a>
+    <a href="about.html">About</a>
+  </div>
+</footer>
+
+<script>
+// Star canvas
+const sc=document.getElementById('star-canvas');
+sc.width=window.innerWidth;sc.height=window.innerHeight;
+const sctx=sc.getContext('2d');
+const stars=Array.from({length:120},()=>({x:Math.random()*sc.width,y:Math.random()*sc.height,r:0.4+Math.random()*1.4,b:0.1+Math.random()*0.6,spd:0.08+Math.random()*0.2}));
+function animStars(){
+  sctx.clearRect(0,0,sc.width,sc.height);
+  stars.forEach(s=>{s.y+=s.spd;if(s.y>sc.height)s.y=0;sctx.beginPath();sctx.arc(s.x,s.y,s.r,0,Math.PI*2);sctx.fillStyle=`rgba(255,255,255,${s.b})`;sctx.fill();});
+  requestAnimationFrame(animStars);
+}
+animStars();
+window.addEventListener('resize',()=>{sc.width=window.innerWidth;sc.height=window.innerHeight;});
+
+// Pombon canvas
+const pc=document.getElementById('pombon-canvas');
+const pctx=pc.getContext('2d');
+let pAngle=0;
+function drawP(){
+  pctx.clearRect(0,0,140,140);
+  pctx.save();pctx.translate(70,70);pctx.rotate(pAngle);
+  for(let i=0;i<12;i++){
+    const a=(i/12)*Math.PI*2,r1=22,r2=32+(i%3)*3;
+    pctx.fillStyle='#F4A800';pctx.beginPath();
+    pctx.moveTo(Math.cos(a)*r1,Math.sin(a)*r1);
+    pctx.lineTo(Math.cos(a-0.18)*(r2+2),Math.sin(a-0.18)*(r2+2));
+    pctx.lineTo(Math.cos(a)*r2,Math.sin(a)*r2);
+    pctx.lineTo(Math.cos(a+0.18)*(r2+2),Math.sin(a+0.18)*(r2+2));
+    pctx.closePath();pctx.fill();
+  }
+  pctx.fillStyle='#F5B800';pctx.shadowColor='#FFD700';pctx.shadowBlur=16;
+  pctx.beginPath();pctx.arc(0,0,22,0,Math.PI*2);pctx.fill();pctx.shadowBlur=0;
+  pctx.fillStyle='#FDDA6A';pctx.globalAlpha=0.65;pctx.beginPath();pctx.ellipse(0,4,14,10,0,0,Math.PI*2);pctx.fill();pctx.globalAlpha=1;
+  pctx.fillStyle='#F5B800';pctx.beginPath();pctx.arc(0,-30,7,0,Math.PI*2);pctx.fill();
+  pctx.fillStyle='#FDDA6A';pctx.beginPath();pctx.arc(0,-30,4.5,0,Math.PI*2);pctx.fill();
+  [-9,9].forEach(ex=>{
+    pctx.fillStyle='white';pctx.beginPath();pctx.arc(ex,-6,6.5,0,Math.PI*2);pctx.fill();
+    pctx.fillStyle='#1a1a1a';pctx.beginPath();pctx.arc(ex,-6,4,0,Math.PI*2);pctx.fill();
+    pctx.fillStyle='white';pctx.beginPath();pctx.arc(ex-1.5,-8,1.5,0,Math.PI*2);pctx.fill();
+  });
+  pctx.fillStyle='#E8302A';pctx.beginPath();pctx.ellipse(0,-1,3,2.5,0,0,Math.PI*2);pctx.fill();
+  pctx.fillStyle='#CC2020';pctx.beginPath();pctx.moveTo(-8,6);pctx.quadraticCurveTo(0,14,8,6);pctx.fill();
+  pctx.fillStyle='#FF8080';pctx.beginPath();pctx.ellipse(0,9,5,3.5,0,0,Math.PI*2);pctx.fill();
+  pctx.restore();
+  pAngle+=0.012;
+  requestAnimationFrame(drawP);
+}
+drawP();
+</script>
+</body>
+</html>
